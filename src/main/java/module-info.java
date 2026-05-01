@@ -10,7 +10,10 @@ module com.example.dynamic_ride_allocator {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires java.desktop;
 
     opens com.example.dynamic_ride_allocator to javafx.fxml;
     exports com.example.dynamic_ride_allocator;
+    exports com.example.dynamic_ride_allocator.Controllers;
+    opens com.example.dynamic_ride_allocator.Controllers to javafx.fxml;
 }
