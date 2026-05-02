@@ -1,6 +1,8 @@
 package com.example.dynamic_ride_allocator.Models;
 
-public class Trip {
+import java.io.Serializable;
+
+public class Trip implements Serializable {
     int tripID;
     int driverID;
     int riderID;

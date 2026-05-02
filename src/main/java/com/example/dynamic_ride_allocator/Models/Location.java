@@ -1,6 +1,8 @@
 package com.example.dynamic_ride_allocator.Models;
 
-public class Location {
+import java.io.Serializable;
+
+public class Location implements Serializable {
     int id;
     String name;
 
