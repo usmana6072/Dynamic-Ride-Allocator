@@ -1,19 +1,28 @@
 package com.example.dynamic_ride_allocator.Models;
 
-public class Rider {
-    int id;
+import java.io.Serializable;
+
+public class Rider implements Serializable {
     String name;
     int location=-1;
     String phone;
     String email;
     String password;
+    String address;
 
 
-    public Rider(int id, String name, String phone, String password) {
-        this.id = id;
+    public Rider( String name, String phone, String password) {
         this.name = name;
         this.phone = phone;
         this.password = password;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getEmail() {
@@ -30,14 +39,6 @@ public class Rider {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
