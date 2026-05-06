@@ -1,21 +1,25 @@
 package com.example.dynamic_ride_allocator.Models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Driver implements Serializable {
-    String  name;
-    int location;
-    boolean isAvailable;
-    boolean isApproved;
-    float rating;
-    String phone;
-    String email;           // to display on GUI
-    String vehicleType;     // "Car", "Bike", "Rickshaw"
-    String vehicleNumber;   // "ABC-123"
-    int totalTrips;
-    String password;
-    String address;
-    String licenceNumber;
+    private String  name;
+    private int location;
+    private boolean isAvailable;
+    private boolean isApproved;
+    private float rating;
+    private String phone;
+    private String email;           // to display on GUI
+    private String vehicleType;     // "Car", "Bike", "Rickshaw"
+    private String vehicleNumber;   // "ABC-123"
+    private int totalTrips;
+    private String password;
+    private String address;
+    private String licenceNumber;
+    private double totalEarnings;
+    private Trip currentRide;
+    private ArrayList<Rider> rideRequests=new ArrayList<>();
 
     public Driver() {
     }
@@ -26,6 +30,14 @@ public class Driver implements Serializable {
         this.vehicleType = vehicleType;
         this.vehicleNumber = vehicleNumber;
         this.password=password;
+    }
+
+    public double getTotalEarnings() {
+        return totalEarnings;
+    }
+
+    public void setTotalEarnings(double totalEarnings) {
+        this.totalEarnings = totalEarnings;
     }
 
     public String getLicenceNumber() {
@@ -130,5 +142,21 @@ public class Driver implements Serializable {
 
     public void setTotalTrips(int totalTrips) {
         this.totalTrips = totalTrips;
+    }
+
+    public Trip getCurrentRide() {
+        return currentRide;
+    }
+
+    public void setCurrentRide(Trip currentRide) {
+        this.currentRide = currentRide;
+    }
+
+    public ArrayList<Rider> getRideRequests() {
+        return rideRequests;
+    }
+
+    public void setRideRequests(ArrayList<Rider> rideRequests) {
+        this.rideRequests = rideRequests;
     }
 }

@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class LoginController {
+    public static Object currentUser;
     private Stage stage;
     @FXML
     private TextField etEmail;
@@ -34,6 +35,7 @@ public class LoginController {
         RadioButton roleButton=(RadioButton) roleGroup.getSelectedToggle();
         if(roleButton==null){
             showAlert("Please Select a rolel");
+            return;
         }
         String role=roleButton.getText().trim();
         try {
@@ -49,7 +51,7 @@ public class LoginController {
                     break;
             }
         }catch (IOException e){
-            showAlert(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
@@ -57,9 +59,12 @@ public class LoginController {
         if(UsersData.adminData.containsKey(email)){
             Admin admin=UsersData.adminData.get(email);
             if(password.equals(admin.getPassword())){
+                currentUser=admin;
                 Parent root= FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Layouts/admin_dashboard.fxml")));
                 stage.setTitle("Admin Dashboard");
                 stage.setScene(new Scene(root));
+            }else{
+                showAlert("Wrong Password");
             }
         }else{
             showAlert("Admin email Does not exist");
@@ -70,9 +75,12 @@ public class LoginController {
         if(UsersData.riderData.containsKey(email)){
             Rider rider=UsersData.riderData.get(email);
             if(password.equals(rider.getPassword())) {
+                currentUser=rider;
                 Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Layouts/rider_dashboard.fxml")));
                 stage.setTitle("Rider Dashboard");
                 stage.setScene(new Scene(root));
+            }else{
+                showAlert("Wrong Password");
             }
         }else{
             showAlert("Rider email Does not exist");
@@ -82,14 +90,17 @@ public class LoginController {
     private void loginDriver(String email, String password) throws IOException {
         if(UsersData.driverData.containsKey(email)){
             Driver driver=UsersData.driverData.get(email);
-            if(!driver.isApproved()){
-                showAlert("You account is not approved Yet");
-                return;
-            }
+//            if(!driver.isApproved()){
+//                showAlert("You account is not approved Yet");
+//                return;
+//            }
             if(password.equals(driver.getPassword())){
+                currentUser=driver;
                 Parent root= FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Layouts/driver_dashboard.fxml")));
                 stage.setTitle("Driver Dashboard");
                 stage.setScene(new Scene(root));
+            }else{
+                showAlert("Wrong Password");
             }
         }else{
             showAlert("Driver Email Does not exist");

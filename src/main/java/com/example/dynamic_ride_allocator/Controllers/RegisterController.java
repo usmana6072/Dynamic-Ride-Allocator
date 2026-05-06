@@ -100,7 +100,7 @@ public class RegisterController {
         driver.setAddress(address);
         driver.setApproved(false);
         UsersData.driverData.put(email,driver);
-        new Thread(UsersData::writeDriver).start();
+        UsersData.appendDriver(email);
         showInformation("Registration Successfully processed");
 
         Parent root= FXMLLoader.load(getClass().getResource("/Layouts/welcome.fxml"));
@@ -135,7 +135,7 @@ public class RegisterController {
         rider.setAddress(address);
         rider.setEmail(email);
         UsersData.riderData.put(email,rider);
-        new Thread(UsersData::writeRider).start();
+        UsersData.appendRider(email);
         showInformation("Registration Successfully processed");
 
         Parent root= FXMLLoader.load(getClass().getResource("/Layouts/welcome.fxml"));

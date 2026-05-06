@@ -3,13 +3,13 @@ package com.example.dynamic_ride_allocator.Models;
 import java.io.Serializable;
 
 public class Rider implements Serializable {
-    String name;
-    int location=-1;
-    String phone;
-    String email;
-    String password;
-    String address;
-
+    private String name;
+    private int location=-1;
+    private String phone;
+    private String email;
+    private String password;
+    private String address;
+    private boolean approved;
 
     public Rider( String name, String phone, String password) {
         this.name = name;
@@ -64,5 +64,13 @@ public class Rider implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
     }
 }
