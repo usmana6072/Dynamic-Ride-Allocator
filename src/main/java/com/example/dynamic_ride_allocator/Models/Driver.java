@@ -1,6 +1,7 @@
 package com.example.dynamic_ride_allocator.Models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Driver implements Serializable {
     private String  name;
@@ -18,6 +19,7 @@ public class Driver implements Serializable {
     private String licenceNumber;
     private double totalEarnings;
     private Trip currentRide;
+    private ArrayList<Rider> rideRequests=new ArrayList<>();
 
     public Driver() {
     }
@@ -148,5 +150,13 @@ public class Driver implements Serializable {
 
     public void setCurrentRide(Trip currentRide) {
         this.currentRide = currentRide;
+    }
+
+    public ArrayList<Rider> getRideRequests() {
+        return rideRequests;
+    }
+
+    public void setRideRequests(ArrayList<Rider> rideRequests) {
+        this.rideRequests = rideRequests;
     }
 }
