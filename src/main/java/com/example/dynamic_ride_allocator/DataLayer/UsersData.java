@@ -3,6 +3,7 @@ package com.example.dynamic_ride_allocator.DataLayer;
 import com.example.dynamic_ride_allocator.Models.Admin;
 import com.example.dynamic_ride_allocator.Models.Driver;
 import com.example.dynamic_ride_allocator.Models.Rider;
+import com.example.dynamic_ride_allocator.Helpers.AppendableObjectOutputStream;
 
 import java.io.*;
 import java.util.HashMap;
@@ -25,21 +26,32 @@ public class UsersData {
     private static void loadDriver() {
         File file=new File(driverPath);
         try(ObjectInputStream input=new ObjectInputStream(new FileInputStream(file))){
-            Driver driver=(Driver) input.readObject();
-            if(driver!=null)
-                driverData.put(driver.getEmail(),driver);
-        }catch (IOException | ClassNotFoundException e){
-            e.printStackTrace();
+            while(true) {
+                Driver driver = (Driver) input.readObject();
+                if (driver != null)
+                    driverData.put(driver.getEmail(), driver);
+            }
+        }
+        catch (EOFException e){
+
+        }
+        catch (IOException | ClassNotFoundException e){
+            System.out.println(e.getMessage());
         }
     }
 
     private static void loadRider() {
         File file=new File(riderPath);
         try(ObjectInputStream input=new ObjectInputStream(new FileInputStream(file))){
-            Rider rider=(Rider) input.readObject();
-            if(rider!=null)
-                riderData.put(rider.getEmail(),rider);
-        }catch (IOException | ClassNotFoundException e){
+            while(true) {
+                Rider rider = (Rider) input.readObject();
+                if (rider != null)
+                    riderData.put(rider.getEmail(), rider);
+            }
+        }catch (EOFException e){
+
+        }
+        catch (IOException | ClassNotFoundException e){
             e.printStackTrace();
         }
     }
@@ -47,10 +59,15 @@ public class UsersData {
     private static void loadAdmin() {
         File file=new File(adminPath);
         try(ObjectInputStream input=new ObjectInputStream(new FileInputStream(file))){
-            Admin admin=(Admin) input.readObject();
-            if(admin!=null)
-                adminData.put(admin.getEmail(),admin);
-        }catch (IOException | ClassNotFoundException e){
+            while(true) {
+                Admin admin = (Admin) input.readObject();
+                if (admin != null)
+                    adminData.put(admin.getEmail(), admin);
+            }
+        }catch (EOFException e){
+
+        }
+        catch (IOException | ClassNotFoundException e){
             e.printStackTrace();
         }
     }
@@ -93,6 +110,45 @@ public class UsersData {
                 }
             }
         }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void appendDriver(String email){
+        File file=new File(driverPath);
+        try(ObjectOutputStream out=(file.exists() && file.length() > 0)
+                ? new AppendableObjectOutputStream(new FileOutputStream(file, true))
+                : new ObjectOutputStream(new FileOutputStream(file))) {
+            Driver driver=driverData.get(email);
+            if(driver!=null)
+                out.writeObject(driver);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void appendRider(String email){
+        File file=new File(riderPath);
+        try(ObjectOutputStream out=(file.exists() && file.length() > 0)
+                ? new AppendableObjectOutputStream(new FileOutputStream(file, true))
+                : new ObjectOutputStream(new FileOutputStream(file))) {
+            Rider rider=riderData.get(email);
+            if(rider!=null)
+                out.writeObject(rider);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void appendAdmin(String email){
+        File file=new File(adminPath);
+        try(ObjectOutputStream out=(file.exists() && file.length() > 0)
+                ? new AppendableObjectOutputStream(new FileOutputStream(file, true))
+                : new ObjectOutputStream(new FileOutputStream(file))) {
+            Admin admin=adminData.get(email);
+            if(admin!=null)
+                out.writeObject(admin);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
