@@ -1,4 +1,6 @@
+package  com.example.dynamic_ride_allocator.graphs;
 import java.util.*;
+
 public class CityGraph {
     static Map<String, List<Road>> adjacencyList = new LinkedHashMap<>();
     static ArrayList<String> allLocations = new ArrayList<>();
