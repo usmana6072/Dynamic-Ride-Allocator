@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Rider implements Serializable {
     private String name;
-    private int location=-1;
+    private String location;
     private String phone;
     private String email;
     private String password;
@@ -49,11 +49,11 @@ public class Rider implements Serializable {
         this.name = name;
     }
 
-    public int getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(int location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 

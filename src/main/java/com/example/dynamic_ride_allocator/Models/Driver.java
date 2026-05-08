@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Driver implements Serializable {
     private String  name;
-    private int location;
+    private String location;
     private boolean isAvailable;
     private boolean isApproved;
     private float rating;
@@ -89,11 +89,11 @@ public class Driver implements Serializable {
         this.name = name;
     }
 
-    public int getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(int location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 
