@@ -19,6 +19,7 @@ public class Driver implements Serializable {
     private String licenceNumber;
     private double totalEarnings;
     private Trip currentRide;
+    private double distance;
     private ArrayList<Rider> rideRequests=new ArrayList<>();
 
     public Driver() {
@@ -158,5 +159,12 @@ public class Driver implements Serializable {
 
     public void setRideRequests(ArrayList<Rider> rideRequests) {
         this.rideRequests = rideRequests;
+    }
+
+    public double getDistance(){
+        return distance;
+    }
+    public void setDistance(double d){
+        this.distance=d;
     }
 }
