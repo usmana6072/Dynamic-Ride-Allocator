@@ -11,6 +11,7 @@ module com.example.dynamic_ride_allocator {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires java.desktop;
+    requires java.sql;
 
     opens com.example.dynamic_ride_allocator to javafx.fxml;
     exports com.example.dynamic_ride_allocator;

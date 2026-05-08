@@ -1,5 +1,6 @@
 package com.example.dynamic_ride_allocator.Controllers.RiderControllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -10,7 +11,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
-public class RiderDashboardController {
+public class BookRideController {
     public void btnHomeAction(MouseEvent mouseEvent) throws IOException {
         Stage s=(Stage) ((Node)mouseEvent.getSource()).getScene().getWindow();
         Parent root= FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Layouts/rider_dashboard.fxml")));
@@ -51,6 +52,10 @@ public class RiderDashboardController {
         Parent root= FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Layouts/rider_dashboard.fxml")));
         s.setTitle("Welcome To Dynamic Ride Allocator");
         s.setScene(new Scene(root));
+
+    }
+
+    public void findRiderAction(ActionEvent event) {
 
     }
 }

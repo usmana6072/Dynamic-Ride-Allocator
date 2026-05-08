@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
-public class RiderDashboardController {
+public class RideHistoryController {
     public void btnHomeAction(MouseEvent mouseEvent) throws IOException {
         Stage s=(Stage) ((Node)mouseEvent.getSource()).getScene().getWindow();
         Parent root= FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Layouts/rider_dashboard.fxml")));

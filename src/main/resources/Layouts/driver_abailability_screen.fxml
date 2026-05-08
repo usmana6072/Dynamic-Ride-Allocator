@@ -50,8 +50,11 @@
                             </Label>
                             <HBox alignment="CENTER_LEFT" spacing="8.0" style="-fx-background-color: #F0F6FF; -fx-background-radius: 8; -fx-padding: 10 12 10 12;">
                                 <Label style="-fx-font-size: 14px;" text="📍" />
-                        <ListView fx:id="locationsSet" prefHeight="30.0" prefWidth="200.0" />
-                            </HBox>
+                                <ComboBox fx:id="locationsSet"
+                                          prefHeight="30.0"
+                                          prefWidth="200.0"
+                                          promptText="Select location"
+                                          style="-fx-background-radius: 6; -fx-font-size: 11px;" />                            </HBox>
                         </children>
                     </VBox>
 
