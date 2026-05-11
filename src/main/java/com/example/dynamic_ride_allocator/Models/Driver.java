@@ -167,11 +167,6 @@ public class Driver implements Serializable {
 
     public void setDistance(double distance) {
         this.distance = distance;
-    public double getDistance(){
-        return distance;
-    }
-    public void setDistance(double d){
-        this.distance=d;
     }
 
     public boolean isBlocked() {
