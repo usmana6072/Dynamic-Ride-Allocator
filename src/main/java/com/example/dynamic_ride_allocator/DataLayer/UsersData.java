@@ -4,8 +4,10 @@ import com.example.dynamic_ride_allocator.Models.Admin;
 import com.example.dynamic_ride_allocator.Models.Driver;
 import com.example.dynamic_ride_allocator.Models.Rider;
 import com.example.dynamic_ride_allocator.Helpers.AppendableObjectOutputStream;
+import com.example.dynamic_ride_allocator.Models.Trip;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,14 +15,25 @@ public class UsersData {
     public static Map<String, Admin> adminData=new HashMap<>();
     public static Map<String, Rider> riderData=new HashMap<>();
     public static Map<String, Driver> driverData=new HashMap<>();
+    public static Map<String,ArrayList<Trip>> riderHistory=new HashMap<>();
+    public static Map<String,ArrayList<Trip>> driverHistory=new HashMap<>();
+
     public static String adminPath="C:\\DRA\\admin.txt";
     public static String riderPath="C:\\DRA\\rider.txt";
     public static String driverPath="C:\\DRA\\driver.txt";
+    public static String riderHistoryPath="C:\\DRA\\riderHistory.txt";
+    public static String driverHistoryPath="C:\\DRA\\driverHistory.txt";
+
 
     public static void loadData(){
         loadAdmin();
         loadRider();
         loadDriver();
+        loadDriverHistory();
+        loadRiderHistory();
+    }
+    public static ArrayList<Driver> getAllDrivers() {
+        return new ArrayList<>(driverData.values());
     }
 
     private static void loadDriver() {
@@ -72,6 +85,24 @@ public class UsersData {
         }
     }
 
+    public static void loadRiderHistory() {
+        File file=new File(riderHistoryPath);
+        try(ObjectInputStream input=new ObjectInputStream(new FileInputStream(file))){
+            riderHistory=(Map<String, ArrayList<Trip>>) input.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadDriverHistory() {
+        File file=new File(driverHistoryPath);
+        try(ObjectInputStream input=new ObjectInputStream(new FileInputStream(file))){
+            driverHistory=(Map<String, ArrayList<Trip>>) input.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void writeAdmin(){
         File file=new File(adminPath);
         try(ObjectOutputStream output=new ObjectOutputStream(new FileOutputStream(file))){
@@ -110,6 +141,25 @@ public class UsersData {
                 }
             }
         }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+    public static void writeRiderHistory(){
+        File file=new File(riderHistoryPath);
+        try (ObjectOutputStream out=new ObjectOutputStream(new FileOutputStream(file))){
+            if(riderHistory!=null)
+                out.writeObject(riderHistory);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void writeDriverHistory(){
+        File file=new File(driverHistoryPath);
+        try (ObjectOutputStream out=new ObjectOutputStream(new FileOutputStream(file))){
+            if(driverHistory!=null)
+                out.writeObject(driverHistory);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -152,5 +202,4 @@ public class UsersData {
             e.printStackTrace();
         }
     }
-
 }

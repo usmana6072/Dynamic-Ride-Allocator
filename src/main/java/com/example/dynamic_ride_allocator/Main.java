@@ -2,6 +2,8 @@ package com.example.dynamic_ride_allocator;
 
 import com.example.dynamic_ride_allocator.DataLayer.UsersData;
 import com.example.dynamic_ride_allocator.Models.Admin;
+import com.example.dynamic_ride_allocator.graphs.CityGraph;
+import com.example.dynamic_ride_allocator.graphs.RideAllocator;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -25,6 +27,7 @@ public class Main extends Application {
     }
 
     private void createFiles() throws IOException {
+        RideAllocator.loadSampleCityData();
         File folder=new File("C:\\DRA");
         if(!folder.exists()){
             folder.mkdir();
@@ -32,8 +35,16 @@ public class Main extends Application {
         File adminFile=new File(folder,"admin.txt");
         File customerFile=new File(folder,"rider.txt");
         File driverFile=new File(folder,"driver.txt");
+        File riderHistoryFile=new File(folder,"riderHistory.txt");
+        File driverHistory=new File(folder,"driverHistory.txt");
+
+
         if(!customerFile.exists())
             customerFile.createNewFile();
+        if(!driverFile.exists())
+            driverFile.createNewFile();
+        if(!riderHistoryFile.exists())
+            riderHistoryFile.createNewFile();
         if(!driverFile.exists())
             driverFile.createNewFile();
 
@@ -49,5 +60,6 @@ public class Main extends Application {
             }
         }
         new Thread(UsersData::loadData).start();
+
     }
 }

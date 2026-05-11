@@ -20,8 +20,8 @@ public class Driver implements Serializable {
     private double totalEarnings;
     private Trip currentRide;
     private double distance;
-    private ArrayList<Rider> rideRequests=new ArrayList<>();
-
+    private ArrayList<Trip> rideRequests=new ArrayList<>();
+    boolean blocked;
     public Driver() {
     }
 
@@ -153,11 +153,11 @@ public class Driver implements Serializable {
         this.currentRide = currentRide;
     }
 
-    public ArrayList<Rider> getRideRequests() {
+    public ArrayList<Trip> getRideRequests() {
         return rideRequests;
     }
 
-    public void setRideRequests(ArrayList<Rider> rideRequests) {
+    public void setRideRequests(ArrayList<Trip> rideRequests) {
         this.rideRequests = rideRequests;
     }
 
@@ -172,5 +172,13 @@ public class Driver implements Serializable {
     }
     public void setDistance(double d){
         this.distance=d;
+    }
+
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
     }
 }

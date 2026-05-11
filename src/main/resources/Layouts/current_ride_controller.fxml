@@ -4,12 +4,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #F7FAFF;"
+<AnchorPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #F7FAFF;"
             xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.dynamic_ride_allocator.Controllers.RiderControllers.CurrentRideController">
 
     <children>
-        <HBox prefHeight="500.0" prefWidth="700.0">
+        <HBox prefHeight="500.0" prefWidth="800.0">
             <children>
 
                 <!-- ── SIDEBAR ── -->
@@ -120,7 +120,7 @@
                         </HBox>
 
                         <!-- End Ride Button -->
-                        <Button mnemonicParsing="false" text="End Ride"
+                        <Button fx:id="btnEndRide" mnemonicParsing="false" text="End Ride"
                                 onAction="#endRideAction"
                                 prefWidth="344.0" prefHeight="36.0"
                                 style="-fx-background-color: #D94040; -fx-text-fill: #FFFFFF;

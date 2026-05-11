@@ -1,14 +1,15 @@
 package com.example.dynamic_ride_allocator.Controllers.DriverControllers;
 
 import com.example.dynamic_ride_allocator.Controllers.LoginController;
+import com.example.dynamic_ride_allocator.DataLayer.UsersData;
 import com.example.dynamic_ride_allocator.Models.Driver;
+import com.example.dynamic_ride_allocator.graphs.CityGraph;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -16,6 +17,8 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class AvailabilityScreenController {
+    public ComboBox<String> locationsSet;
+    public Button btnUpdateLocation;
     @FXML
     private ToggleButton availabilityToggle;
     @FXML
@@ -23,20 +26,41 @@ public class AvailabilityScreenController {
 
     @FXML
     public void initialize(){
+
+        Driver driver=(Driver) LoginController.currentUser;
+
+        availabilityToggle.setSelected(driver.isAvailable());
+
+        locationsSet.getItems().addAll(CityGraph.getAllLocations());
+
+        if(driver.getLocation()==null || driver.getLocation().isEmpty())
+            locationsSet.setValue("");
+        else
+            locationsSet.getSelectionModel().select(driver.getLocation());
+        availabilityToggle.setText((driver.isAvailable())? "Online":"Offline");
+        tvStaus.setText((driver.isAvailable())?"You are Currently Online":"You are Currently Offline");
+
         availabilityToggle.selectedProperty().addListener((obs,oldValue,newValue)->{
-            Driver driver=(Driver) LoginController.currentUser;
+
+            driver.setAvailable(newValue);
+
             if(newValue){
-                driver.setAvailable(true);
                 tvStaus.setText("You are currently Online");
                 availabilityToggle.setText("Online");
-            }else {
-                driver.setAvailable(false);
+            }else{
                 tvStaus.setText("You are currently Offline");
                 availabilityToggle.setText("Offline");
             }
         });
+        btnUpdateLocation.setOnAction(e->{
+            String location=locationsSet.getSelectionModel().getSelectedItem().trim();
+            if(location.isEmpty())
+                return;
+            driver.setLocation(location);
+            new Thread(UsersData::writeDriver).start();
+            showAlert("Location updated Successfully");
+        });
     }
-
 
     // this adds action listeners to side menu
     @FXML
@@ -91,5 +115,12 @@ public class AvailabilityScreenController {
         s.setTitle("Welcome to Dynamic Ride Allocator");
         s.setScene(new Scene(root));
         s.show();
+    }
+
+    private void showAlert(String message){
+        Alert alert=new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

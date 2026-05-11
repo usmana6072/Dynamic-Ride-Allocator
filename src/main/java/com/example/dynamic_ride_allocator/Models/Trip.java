@@ -1,27 +1,29 @@
 package com.example.dynamic_ride_allocator.Models;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 
-public class Trip implements Serializable {
+public class Trip implements Serializable,Comparable<Trip>{
     int tripID;
-    int driverID;
-    int riderID;
-    int pickupLocation;       // ← store locations in trip too
-    int dropOffLocation;
-    float fare;
-    float distance;           // calculated by BFS
-    String status;            // "completed", "cancelled", "ongoing"
-    String date;              // "2025-05-01" for history display
-    String time;
+    String driverEmail;
+    String riderEmail;
+    String pickupLocation;       // ← store locations in trip too
+    String dropOffLocation;
+    double fare;
+    boolean accepted;
+    double distance;           // calculated by BFS
+    String status;          // "completed", "cancelled", "ongoing"
+    long time;
 
     public Trip(){
 
     }
 
-    public Trip(int tripID, int driverID, int riderID, int pickupLocation, int dropOffLocation, float fare) {
+    public Trip(int tripID, String driverEmail, String riderEmail, String pickupLocation, String dropOffLocation, double fare) {
         this.tripID = tripID;
-        this.driverID = driverID;
-        this.riderID = riderID;
+        this.driverEmail = driverEmail;
+        this.riderEmail = riderEmail;
         this.pickupLocation = pickupLocation;
         this.dropOffLocation = dropOffLocation;
         this.fare = fare;
@@ -35,51 +37,51 @@ public class Trip implements Serializable {
         this.tripID = tripID;
     }
 
-    public int getDriverID() {
-        return driverID;
+    public String getDriverEmail() {
+        return driverEmail;
     }
 
-    public void setDriverID(int driverID) {
-        this.driverID = driverID;
+    public void setDriverEmail(String driverEmail) {
+        this.driverEmail = driverEmail;
     }
 
-    public int getRiderID() {
-        return riderID;
+    public String getRiderEmail() {
+        return riderEmail;
     }
 
-    public void setRiderID(int riderID) {
-        this.riderID = riderID;
+    public void setRiderEmail(String riderEmail) {
+        this.riderEmail = riderEmail;
     }
 
-    public int getPickupLocation() {
+    public String getPickupLocation() {
         return pickupLocation;
     }
 
-    public void setPickupLocation(int pickupLocation) {
+    public void setPickupLocation(String pickupLocation) {
         this.pickupLocation = pickupLocation;
     }
 
-    public int getDropOffLocation() {
+    public String getDropOffLocation() {
         return dropOffLocation;
     }
 
-    public void setDropOffLocation(int dropOffLocation) {
+    public void setDropOffLocation(String dropOffLocation) {
         this.dropOffLocation = dropOffLocation;
     }
 
-    public float getFare() {
+    public double getFare() {
         return fare;
     }
 
-    public void setFare(float fare) {
+    public void setFare(double fare) {
         this.fare = fare;
     }
 
-    public float getDistance() {
+    public double getDistance() {
         return distance;
     }
 
-    public void setDistance(float distance) {
+    public void setDistance(double distance) {
         this.distance = distance;
     }
 
@@ -91,19 +93,24 @@ public class Trip implements Serializable {
         this.status = status;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getTime() {
+    public Long getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(long time) {
         this.time = time;
+    }
+
+    @Override
+    public int compareTo(@NotNull Trip o) {
+        return Long.compare(this.time,o.time);
+    }
+
+    public boolean isAccepted() {
+        return accepted;
+    }
+
+    public void setAccepted(boolean accepted) {
+        this.accepted = accepted;
     }
 }

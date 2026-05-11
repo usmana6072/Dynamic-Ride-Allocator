@@ -12,6 +12,7 @@ module com.example.dynamic_ride_allocator {
     requires com.almasb.fxgl.all;
     requires java.desktop;
     requires java.sql;
+    requires annotations;
 
     opens com.example.dynamic_ride_allocator to javafx.fxml;
     exports com.example.dynamic_ride_allocator;

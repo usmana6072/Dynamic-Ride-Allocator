@@ -74,6 +74,10 @@ public class LoginController {
     private void loginCustomer(String email, String password) throws IOException {
         if(UsersData.riderData.containsKey(email)){
             Rider rider=UsersData.riderData.get(email);
+            if(rider.isBlocked()){
+                showAlert("You have been blocked by admin Cannot login");
+                return;
+            }
             if(password.equals(rider.getPassword())) {
                 currentUser=rider;
                 Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Layouts/rider_dashboard.fxml")));
@@ -90,10 +94,14 @@ public class LoginController {
     private void loginDriver(String email, String password) throws IOException {
         if(UsersData.driverData.containsKey(email)){
             Driver driver=UsersData.driverData.get(email);
-//            if(!driver.isApproved()){
-//                showAlert("You account is not approved Yet");
-//                return;
-//            }
+            if(!driver.isApproved()){
+                showAlert("You account is not approved Yet");
+                return;
+            }
+            if(driver.isBlocked()){
+                showAlert("You have been blocked by admin Cannot login");
+                return;
+            }
             if(password.equals(driver.getPassword())){
                 currentUser=driver;
                 Parent root= FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Layouts/driver_dashboard.fxml")));

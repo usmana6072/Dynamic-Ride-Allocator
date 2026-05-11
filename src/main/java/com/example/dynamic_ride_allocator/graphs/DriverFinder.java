@@ -1,90 +1,88 @@
 package  com.example.dynamic_ride_allocator.graphs;
+
+import com.example.dynamic_ride_allocator.DataLayer.UsersData;
+import com.example.dynamic_ride_allocator.Models.Driver;
+
 import java.util.*;
+
 public class DriverFinder {
-    static ArrayList<Driver> allDrivers=new ArrayList<>();
 
-    public static String addDriver(String name, String location){
-        name=name.trim();
-        location=location.trim();
-        if (!CityGraph.locationExists(location))
-            return "LOCATION NOT FOUND";
-        for (Driver d:allDrivers)
-            if (d.name.equalsIgnoreCase(name))
-                return "DUPLICATE NAME";
-        allDrivers.add(new Driver(name, location));
-        return "OK";
-    }
+    static ArrayList<Driver> allDrivers = UsersData.getAllDrivers();
 
-    public static boolean removeDriver(String name){
-        boolean removed=allDrivers.removeIf(d -> d.name.equalsIgnoreCase(name));
-        return removed;
-    }
-
-    public static String updateDriverLocation(String name,String newLocation){
-        if (!CityGraph.locationExists(newLocation))
-            return "LOCATION NOT FOUND";
-        for (Driver d : allDrivers) {
-            if (d.name.equalsIgnoreCase(name)){
-                d.location = newLocation;
-                return "OK";
-            }
-        }
-        return "DRIVER NOT FOUND";
-    }
-
-    public static ArrayList<Driver> getAllDrivers(){
-        return allDrivers;
-    }
-
-    public static ArrayList<Driver> getAvailableDrivers(){
-        ArrayList<Driver> available=new ArrayList<>();
-        for (Driver d:allDrivers)
-            if (d.available)
-                available.add(d);
+    public static ArrayList<Driver> getAvailableDrivers() {
+        ArrayList<Driver> available = new ArrayList<>();
+        for (Driver d : allDrivers)
+            if (d.isAvailable()) available.add(d);
         return available;
     }
-    public static ArrayList<Driver> findNearbyDrivers(String riderLocation, int maxHops){
+
+    public static ArrayList<Driver> findNearbyDrivers(String riderLocation, int maxHops) {
         ArrayList<Driver> nearbyDrivers = new ArrayList<>();
         if (!CityGraph.locationExists(riderLocation)) return nearbyDrivers;
-        Queue<String> queue=new LinkedList<>();
-        Map<String, Integer> hops=new HashMap<>();
-        Map<String, Double> dist=new HashMap<>();
 
-        queue.add(riderLocation);
-        hops.put(riderLocation,0);
-        dist.put(riderLocation,0.00);
 
-        while (!queue.isEmpty()){
-            String current=queue.poll();
-            int currentHop=hops.get(current);
+        // checks if driver and rider are at same location
+        for (Driver driver : getAvailableDrivers()) {
 
-            if (currentHop>= maxHops)
-                continue;
+            String driverLocationName = driver.getLocation();
 
-            for (Road road : CityGraph.adjacencyList.get(current)){
-                String neighbor = road.destination;
-                if (hops.containsKey(neighbor)) continue;
+            if (driver.isAvailable()
+                    && driverLocationName.equalsIgnoreCase(riderLocation)) {
 
-                int newHop=currentHop + 1;
-                double newDist=dist.get(current)+road.distance;
-
-                hops.put(neighbor,newHop);
-                dist.put(neighbor,newDist);
-                queue.add(neighbor);
-                addAvailableDriversAt(neighbor, newDist, nearbyDrivers);
-            }
-        }
-        nearbyDrivers.sort(Comparator.comparingDouble(d -> d.distance));
-        return nearbyDrivers;
-    }
-
-    public static void addAvailableDriversAt(String location,double distance,ArrayList<Driver> nearbyDrivers){
-        for (Driver driver : allDrivers) {
-            if (driver.available && driver.location.equals(location)) {
-                driver.distance = distance;
+                driver.setDistance(0.0);
                 nearbyDrivers.add(driver);
             }
         }
+        Queue<String> queue = new LinkedList<>();
+        Map<String, Integer> hops = new HashMap<>();
+        Map<String, Double> dist = new HashMap<>();
+
+        queue.add(riderLocation);
+        hops.put(riderLocation, 0);
+        dist.put(riderLocation, 0.0);
+
+        while (!queue.isEmpty()) {
+            String current    = queue.poll();
+            int    currentHop = hops.get(current);
+            if (currentHop >= maxHops) continue;
+
+            for (Road road : CityGraph.adjacencyList.get(current)) {
+                String neighbour = road.destination;
+                if (!hops.containsKey(neighbour)) {
+                    int    newHop  = currentHop + 1;
+                    double newDist = dist.get(current) + road.distance;
+                    hops.put(neighbour, newHop);
+                    dist.put(neighbour, newDist);
+                    queue.add(neighbour);
+
+                    for (Driver driver : allDrivers) {
+                        // I have updated the location to string now can get directly from driver
+                        String driverLocationName =driver.getLocation();
+
+                        if (driver.isAvailable() && driverLocationName.equals(neighbour)) {
+                            driver.setDistance(newDist);
+                            nearbyDrivers.add(driver);
+                        }
+                    }
+                }
+            }
+        }
+
+        nearbyDrivers.sort((a, b) -> Double.compare(a.getDistance(), b.getDistance()));
+        return nearbyDrivers;
+    }
+
+    public static int getLocationIndex(String locationName) {
+        return CityGraph.allLocations.indexOf(locationName);
+    }
+
+    public static String getLocationName(int index) {
+        if (index >= 0 && index < CityGraph.allLocations.size())
+            return CityGraph.allLocations.get(index);
+        return "";
+    }
+
+    public static ArrayList<Driver> getAllDrivers() {
+        return allDrivers;
     }
 }
-

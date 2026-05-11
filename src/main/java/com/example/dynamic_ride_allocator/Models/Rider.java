@@ -10,6 +10,8 @@ public class Rider implements Serializable {
     private String password;
     private String address;
     private boolean approved;
+    private boolean blocked;
+    private Trip currentRide;
 
     public Rider( String name, String phone, String password) {
         this.name = name;
@@ -72,5 +74,21 @@ public class Rider implements Serializable {
 
     public void setApproved(boolean approved) {
         this.approved = approved;
+    }
+
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
+    }
+
+    public Trip getCurrentRide() {
+        return currentRide;
+    }
+
+    public void setCurrentRide(Trip currentRide) {
+        this.currentRide = currentRide;
     }
 }
