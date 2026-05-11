@@ -1,3 +1,5 @@
+package  com.example.dynamic_ride_allocator.graphs;
+
 import java.util.*;
 
 public class DriverMinHeap {
@@ -53,15 +55,19 @@ public class DriverMinHeap {
         }
     }
 
-    public static void heapifyDown(int i) {
-        int size = heap.size();
-        while (true) {
-            int left     = 2 * i + 1;
-            int right    = 2 * i + 2;
-            int smallest = i;
-            if (left  < size && heap.get(left).distance  < heap.get(smallest).distance) smallest = left;
-            if (right < size && heap.get(right).distance < heap.get(smallest).distance) smallest = right;
-            if (smallest != i) { swap(i, smallest); i = smallest; }
+    public static void heapifyDown(int i){
+        int size=heap.size();
+        while (true){
+            int left= 2 * i + 1;
+            int right = 2 * i + 2;
+            int smallest=i;
+            if (left <size && heap.get(left).distance < heap.get(smallest).distance)
+                smallest = left;
+            if (right<size && heap.get(right).distance < heap.get(smallest).distance)
+                smallest = right;
+            if (smallest != i){
+                swap(i, smallest); i = smallest;
+            }
             else break;
         }
     }
